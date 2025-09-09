@@ -3771,7 +3771,7 @@ body {
   .chat-input {
     padding: 0.5rem 0.75rem;
     font-size: 16px; /* Предотвращает зум на iOS при фокусе */
-    /* Предотвращаем зум при фокусе */
+    /* Пр��дотвращаем зум при фокусе */
     transform-origin: left top;
     transition: none;
   }
@@ -3849,6 +3849,13 @@ body {
   overflow: hidden;
   mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.reviews-scroll-container.dragging {
+  cursor: grabbing;
 }
 
 .reviews-track {
