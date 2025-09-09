@@ -973,6 +973,7 @@ body {
 
 /* Advantages Section */
 .advantages-section {
+  scroll-margin-top: 120px;
   position: relative;
   min-height: 100vh;
   width: 100%;
@@ -2482,6 +2483,7 @@ body {
 
 /* Pricing Section */
 .pricing-section {
+  scroll-margin-top: 120px;
   position: relative;
   min-height: 100vh;
   width: 100%;
@@ -3263,28 +3265,28 @@ body {
 .chat-messages {
   flex: 1;
   padding: 2rem;
-  padding-bottom: 8rem; /* Отступ для фиксированного поля ввода */
+  padding-bottom: 1rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.chat-messages::-webkit-scrollbar {
+.chat-demo-container .chat-messages::-webkit-scrollbar {
   width: 6px;
 }
 
-.chat-messages::-webkit-scrollbar-track {
+.chat-demo-container .chat-demo-container .chat-messages::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 3px;
 }
 
-.chat-messages::-webkit-scrollbar-thumb {
+.chat-demo-container .chat-demo-container .chat-messages::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 3px;
 }
 
-.chat-messages::-webkit-scrollbar-thumb:hover {
+.chat-demo-container .chat-demo-container .chat-messages::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
@@ -3407,13 +3409,10 @@ body {
 .chat-input-container {
   padding: 1.5rem 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(10px);
+  background: transparent;
+  backdrop-filter: none;
   z-index: 20;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: static;
 }
 
 .chat-input-wrapper {
@@ -3593,7 +3592,7 @@ body {
 
   .chat-messages {
     padding: 1.5rem;
-    padding-bottom: 6rem; /* Отступ для фиксированного поля ввода */
+    padding-bottom: 1rem;
     gap: 1rem;
   }
 
@@ -3608,16 +3607,11 @@ body {
 
   .chat-input-container {
     padding: 1rem 1.5rem;
-    /* Add safe area for mobile devices */
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
-    /* Фиксируем панель ввода внизу экрана */
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: static;
     z-index: 20;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(10px);
+    background: transparent;
+    backdrop-filter: none;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
@@ -3771,7 +3765,7 @@ body {
   .chat-input {
     padding: 0.5rem 0.75rem;
     font-size: 16px; /* Предотвращает зум на iOS при фокусе */
-    /* Предотвращаем зум при фокусе */
+    /* Пр��дотвращаем зум при фокусе */
     transform-origin: left top;
     transition: none;
   }
@@ -3849,6 +3843,13 @@ body {
   overflow: hidden;
   mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.reviews-scroll-container.dragging {
+  cursor: grabbing;
 }
 
 .reviews-track {
@@ -4085,7 +4086,7 @@ body {
   height: 1rem;
 }
 
-.chat-messages {
+.chat-demo-container .chat-messages {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -4096,7 +4097,7 @@ body {
   position: relative;
 }
 
-.chat-messages::after {
+.chat-demo-container .chat-messages::after {
   content: '';
   position: sticky;
   bottom: 0;
@@ -4106,22 +4107,22 @@ body {
   margin-top: -20px;
 }
 
-.chat-messages::-webkit-scrollbar {
+.chat-demo-container .chat-messages::-webkit-scrollbar {
   width: 6px;
 }
 
-.chat-messages::-webkit-scrollbar-track {
+.chat-demo-container .chat-demo-container .chat-messages::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 3px;
 }
 
-.chat-messages::-webkit-scrollbar-thumb {
+.chat-demo-container .chat-demo-container .chat-messages::-webkit-scrollbar-thumb {
   background: rgba(14, 165, 233, 0.5);
   border-radius: 3px;
   transition: background 0.3s ease;
 }
 
-.chat-messages::-webkit-scrollbar-thumb:hover {
+.chat-demo-container .chat-demo-container .chat-messages::-webkit-scrollbar-thumb:hover {
   background: rgba(14, 165, 233, 0.7);
 }
 
@@ -4619,7 +4620,7 @@ body {
     margin-bottom: 4rem;
   }
 
-  .chat-messages {
+  .chat-demo-container .chat-messages {
     min-height: 350px;
     max-height: 500px;
     padding-right: 0.25rem;
@@ -4679,12 +4680,12 @@ body {
     padding: 1rem;
   }
 
-  .chat-messages {
+  .chat-demo-container .chat-messages {
     min-height: 300px;
     max-height: 400px;
   }
 
-  .chat-messages::-webkit-scrollbar {
+  .chat-demo-container .chat-messages::-webkit-scrollbar {
     width: 8px;
   }
 
@@ -4731,6 +4732,7 @@ body {
 
 /* Footer Section */
 .footer-section {
+  scroll-margin-top: 120px;
   position: relative;
   background: #000000;
   border-top: 1px solid rgba(255, 255, 255, 0.1);

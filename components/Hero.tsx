@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { Zap, MessageCircle, BarChart3, Target, ShoppingCart, User, UserPlus, X, Package, Clock, CheckCircle, XCircle } from 'lucide-react'
 import { useCart } from './CartContext'
 import { useUser } from './UserContext'
@@ -17,9 +18,11 @@ export default function Hero() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
   const [isDashboardOpen, setIsDashboardOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setIsLoaded(true)
+    setMounted(true)
   }, [])
 
   useEffect(() => {
@@ -119,9 +122,9 @@ export default function Hero() {
 
             {/* Desktop Navigation */}
             <div className="nav-links desktop-nav">
-              <a href="#services" className="nav-link">Услуги</a>
-              <a href="#about" className="nav-link">О нас</a>
-              <a href="#contact" className="nav-link">Контакты</a>
+              <a href="#pricing" className="nav-link">Услуги</a>
+              <a href="#advantages" className="nav-link">О нас</a>
+              <a href="#footer" className="nav-link">Контакты</a>
 
               <div className="nav-actions">
                 <button
@@ -175,15 +178,15 @@ export default function Hero() {
 
             {/* Mobile Navigation */}
             <div className={`mobile-nav ${isMobileMenuOpen ? 'open' : ''}`}>
-              <a href="#services" className="mobile-nav-link" onClick={() => {
+              <a href="#pricing" className="mobile-nav-link" onClick={() => {
                 console.log('Mobile nav link clicked - closing menu');
                 setIsMobileMenuOpen(false);
               }}>Услуги</a>
-              <a href="#about" className="mobile-nav-link" onClick={() => {
+              <a href="#advantages" className="mobile-nav-link" onClick={() => {
                 console.log('Mobile nav link clicked - closing menu');
                 setIsMobileMenuOpen(false);
               }}>О нас</a>
-              <a href="#contact" className="mobile-nav-link" onClick={() => {
+              <a href="#footer" className="mobile-nav-link" onClick={() => {
                 console.log('Mobile nav link clicked - closing menu');
                 setIsMobileMenuOpen(false);
               }}>Контакты</a>
@@ -289,7 +292,7 @@ export default function Hero() {
 
 
       {/* Contract Process Panel */}
-      {isContractPanelOpen && (
+      {mounted && isContractPanelOpen && createPortal((
         <div className="contract-panel-overlay" onClick={() => setIsContractPanelOpen(false)}>
           <div className="contract-panel" onClick={(e) => e.stopPropagation()}>
             <div className="contract-panel-header">
@@ -337,7 +340,7 @@ export default function Hero() {
               <div className="contract-step">
                 <div className="step-number">4</div>
                 <div className="step-content">
-                  <h3 className="step-title">Тестирование и доработки</h3>
+                  <h3 className="step-title">Тестирование и разработки</h3>
                   <p className="step-description">
                     Проводим полное тестирование функционала, проверяем адаптивность на всех устройствах, оптимизируем скорость загрузки. Исправляем выявленные ошибки и дорабатываем детали по вашим пожеланиям.
                   </p>
@@ -366,10 +369,10 @@ export default function Hero() {
             </div>
           </div>
         </div>
-      )}
+      ), document.body)}
 
       {/* JARVIS Features Panel */}
-      {isFeaturesPanelOpen && (
+      {mounted && isFeaturesPanelOpen && createPortal((
         <div className="features-panel-overlay" onClick={() => setIsFeaturesPanelOpen(false)}>
           <div className="features-panel" onClick={(e) => e.stopPropagation()}>
             <div className="features-panel-header">
@@ -440,7 +443,7 @@ export default function Hero() {
             </div>
           </div>
         </div>
-      )}
+      ), document.body)}
 
       {/* Login Modal */}
       {isLoginModalOpen && (

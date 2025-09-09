@@ -20,7 +20,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="footer-section">
+    <footer className="footer-section" id="footer">
       <div className="footer-container">
         {/* Main Footer Content */}
         <div className="footer-content">
@@ -67,8 +67,6 @@ export default function Footer() {
               <li><a href="#" className="footer-link">О нас</a></li>
               <li><a href="#" className="footer-link">Портфолио</a></li>
               <li><a href="#" className="footer-link">Отзывы клиентов</a></li>
-              <li><a href="#" className="footer-link">Блог</a></li>
-              <li><a href="#" className="footer-link">Карьера</a></li>
             </ul>
           </div>
 
@@ -102,7 +100,6 @@ export default function Footer() {
             <div className="legal-links">
               <a href="#" className="legal-link">Политика конфиденциальности</a>
               <a href="#" className="legal-link">Условия использования</a>
-              <a href="#" className="legal-link">Договор оферты</a>
             </div>
           </div>
         </div>

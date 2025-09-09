@@ -93,6 +93,13 @@ const reviews = [
 export default function Reviews() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [isMounted, setIsMounted] = useState(false)
+  const [isDragging, setIsDragging] = useState(false)
+
+  const isPausedRef = useRef(false)
+  const isDraggingRef = useRef(false)
+  const startXRef = useRef(0)
+  const scrollStartRef = useRef(0)
+  const resumeTimerRef = useRef<number | null>(null)
 
   useEffect(() => {
     setIsMounted(true)
@@ -108,10 +115,8 @@ export default function Reviews() {
     const scrollSpeed = 0.8
 
     const animate = () => {
-      if (scrollContainer) {
+      if (scrollContainer && !isPausedRef.current) {
         scrollContainer.scrollLeft += scrollSpeed
-
-        // Проверяем достигли ли половины контента (начало второго набора)
         const halfWidth = scrollContainer.scrollWidth / 2
         if (scrollContainer.scrollLeft >= halfWidth) {
           scrollContainer.scrollLeft = 0
@@ -120,18 +125,86 @@ export default function Reviews() {
       animationId = requestAnimationFrame(animate)
     }
 
-    // Запускаем анимацию с задержкой для загрузки DOM
-    const timer = setTimeout(() => {
+    const getClientX = (e: globalThis.TouchEvent | globalThis.PointerEvent) => {
+      if ('touches' in e) {
+        const t = e.touches[0] || e.changedTouches[0]
+        return t ? t.clientX : 0
+      }
+      return (e as globalThis.PointerEvent).clientX
+    }
+
+    const onPointerDown = (e: globalThis.PointerEvent) => {
+      isDraggingRef.current = true
+      setIsDragging(true)
+      isPausedRef.current = true
+      startXRef.current = getClientX(e)
+      scrollStartRef.current = scrollContainer.scrollLeft
+      try { scrollContainer.setPointerCapture(e.pointerId) } catch {}
+    }
+
+    const onPointerMove = (e: globalThis.PointerEvent) => {
+      if (!isDraggingRef.current) return
+      const dx = getClientX(e) - startXRef.current
+      scrollContainer.scrollLeft = scrollStartRef.current - dx
+      e.preventDefault()
+    }
+
+    const endDrag = (e?: globalThis.PointerEvent | globalThis.TouchEvent) => {
+      if (e && 'pointerId' in e) {
+        try { scrollContainer.releasePointerCapture(e.pointerId) } catch {}
+      }
+      isDraggingRef.current = false
+      setIsDragging(false)
+      if (resumeTimerRef.current) window.clearTimeout(resumeTimerRef.current)
+      resumeTimerRef.current = window.setTimeout(() => {
+        isPausedRef.current = false
+      }, 800)
+    }
+
+    const onTouchStart = (e: globalThis.TouchEvent) => {
+      isDraggingRef.current = true
+      setIsDragging(true)
+      isPausedRef.current = true
+      startXRef.current = getClientX(e)
+      scrollStartRef.current = scrollContainer.scrollLeft
+    }
+
+    const onTouchMove = (e: globalThis.TouchEvent) => {
+      if (!isDraggingRef.current) return
+      const dx = getClientX(e) - startXRef.current
+      scrollContainer.scrollLeft = scrollStartRef.current - dx
+      e.preventDefault()
+    }
+
+    const onTouchEnd = (e: globalThis.TouchEvent) => endDrag(e)
+
+    const timer = window.setTimeout(() => {
       animationId = requestAnimationFrame(animate)
     }, 1000)
 
+    scrollContainer.addEventListener('pointerdown', onPointerDown)
+    scrollContainer.addEventListener('pointermove', onPointerMove)
+    scrollContainer.addEventListener('pointerup', endDrag)
+    scrollContainer.addEventListener('pointerleave', endDrag)
+
+    scrollContainer.addEventListener('touchstart', onTouchStart, { passive: false })
+    scrollContainer.addEventListener('touchmove', onTouchMove, { passive: false })
+    scrollContainer.addEventListener('touchend', onTouchEnd)
+
     return () => {
-      clearTimeout(timer)
+      if (resumeTimerRef.current) window.clearTimeout(resumeTimerRef.current)
+      window.clearTimeout(timer)
       cancelAnimationFrame(animationId)
+      scrollContainer.removeEventListener('pointerdown', onPointerDown)
+      scrollContainer.removeEventListener('pointermove', onPointerMove)
+      scrollContainer.removeEventListener('pointerup', endDrag)
+      scrollContainer.removeEventListener('pointerleave', endDrag)
+      scrollContainer.removeEventListener('touchstart', onTouchStart)
+      scrollContainer.removeEventListener('touchmove', onTouchMove)
+      scrollContainer.removeEventListener('touchend', onTouchEnd)
     }
   }, [isMounted])
 
-  // Дублируем отзывы для бесконечной прокрутки
   const duplicatedReviews = [...reviews, ...reviews]
 
   return (
@@ -146,7 +219,7 @@ export default function Reviews() {
 
         <div
           ref={scrollRef}
-          className="reviews-scroll-container"
+          className={`reviews-scroll-container ${isDragging ? 'dragging' : ''}`}
         >
           <div className="reviews-track">
             {duplicatedReviews.map((review, index) => (
