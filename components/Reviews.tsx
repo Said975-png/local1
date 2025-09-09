@@ -7,7 +7,7 @@ const reviews = [
   {
     id: 1,
     rating: 5,
-    text: "Я не разбираюсь в сайтах, ��о в Jarvis всё объяснили простыми словами. Сделал магазин, подключил оплату, и теперь я продаю в 3 странах. Рекомендую!",
+    text: "Я не разбираюсь в сайтах, но в Jarvis всё объяснили простыми словами. Сделал магазин, подключил оплату, и теперь я продаю в 3 странах. Рекомендую!",
     author: "Умид А.",
     location: "Ташкент, Freelance"
   },
@@ -28,7 +28,7 @@ const reviews = [
   {
     id: 4,
     rating: 5,
-    text: "Создала интернет-магазин с помощью Jarvis. Весь процесс автоматизирован, а бот отвечает на вопросы клиентов �� любое время дня и ночи.",
+    text: "Создала интернет-магазин с помощью Jarvis. Весь процесс автоматизирован, а бот отвечает на вопросы клиентов в любое время дня и ночи.",
     author: "Алексеева Л.",
     location: "Казань, Freelance"
   },
@@ -77,7 +77,7 @@ const reviews = [
   {
     id: 11,
     rating: 5,
-    text: "Мне сделали сайт с Jarvis Intercoma под мою студию украшений. Красиво, удобно, и всё автоматизировано. Теперь я занимаюсь только заказами, а не сижу целый день в переписках с клиентами.",
+    text: "Мне сделали сайт с Jarvis Intercoma под мою студию украшений. Красиво, удобно, и всё автоматизировано. Теперь я занимаюсь только заказами, а не сижу целый день в переписках с кли��нтами.",
     author: "Мадина Р.",
     location: "Ташкент, Freelance"
   },
@@ -125,7 +125,7 @@ export default function Reviews() {
       animationId = requestAnimationFrame(animate)
     }
 
-    const getClientX = (e: TouchEvent | PointerEvent) => {
+    const getClientX = (e: globalThis.TouchEvent | PointerEvent) => {
       if ('touches' in e) {
         const t = e.touches[0] || e.changedTouches[0]
         return t ? t.clientX : 0
@@ -149,7 +149,7 @@ export default function Reviews() {
       e.preventDefault()
     }
 
-    const endDrag = (e?: PointerEvent | TouchEvent) => {
+    const endDrag = (e?: PointerEvent | globalThis.TouchEvent) => {
       if (e && 'pointerId' in e) {
         try { scrollContainer.releasePointerCapture(e.pointerId) } catch {}
       }
@@ -161,7 +161,7 @@ export default function Reviews() {
       }, 800)
     }
 
-    const onTouchStart = (e: TouchEvent) => {
+    const onTouchStart = (e: globalThis.TouchEvent) => {
       isDraggingRef.current = true
       setIsDragging(true)
       isPausedRef.current = true
@@ -169,14 +169,14 @@ export default function Reviews() {
       scrollStartRef.current = scrollContainer.scrollLeft
     }
 
-    const onTouchMove = (e: TouchEvent) => {
+    const onTouchMove = (e: globalThis.TouchEvent) => {
       if (!isDraggingRef.current) return
       const dx = getClientX(e) - startXRef.current
       scrollContainer.scrollLeft = scrollStartRef.current - dx
       e.preventDefault()
     }
 
-    const onTouchEnd = (e: TouchEvent) => endDrag(e)
+    const onTouchEnd = (e: globalThis.TouchEvent) => endDrag(e)
 
     const timer = window.setTimeout(() => {
       animationId = requestAnimationFrame(animate)
