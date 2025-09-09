@@ -973,6 +973,7 @@ body {
 
 /* Advantages Section */
 .advantages-section {
+  scroll-margin-top: 120px;
   position: relative;
   min-height: 100vh;
   width: 100%;
@@ -2482,6 +2483,7 @@ body {
 
 /* Pricing Section */
 .pricing-section {
+  scroll-margin-top: 120px;
   position: relative;
   min-height: 100vh;
   width: 100%;
@@ -3610,7 +3612,7 @@ body {
     padding: 1rem 1.5rem;
     /* Add safe area for mobile devices */
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
-    /* Фиксируем панель ввода внизу экрана */
+    /* Фиксируем панель ввода внизу экран�� */
     position: fixed;
     bottom: 0;
     left: 0;
@@ -4738,6 +4740,7 @@ body {
 
 /* Footer Section */
 .footer-section {
+  scroll-margin-top: 120px;
   position: relative;
   background: #000000;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
