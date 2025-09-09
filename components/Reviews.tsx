@@ -77,7 +77,7 @@ const reviews = [
   {
     id: 11,
     rating: 5,
-    text: "Мне сделали сайт с Jarvis Intercoma под мою студию украшений. Красиво, удобно, и всё автоматизировано. Теперь я занимаюсь только заказами, а не сижу целый день в переписках с кли��нтами.",
+    text: "Мне сделали сайт с Jarvis Intercoma под мою студию украшений. Красиво, удобно, и всё автоматизировано. Теперь я занимаюсь только заказами, а не сижу целый день в переписках с клиентами.",
     author: "Мадина Р.",
     location: "Ташкент, Freelance"
   },
@@ -125,15 +125,15 @@ export default function Reviews() {
       animationId = requestAnimationFrame(animate)
     }
 
-    const getClientX = (e: globalThis.TouchEvent | PointerEvent) => {
+    const getClientX = (e: globalThis.TouchEvent | globalThis.PointerEvent) => {
       if ('touches' in e) {
         const t = e.touches[0] || e.changedTouches[0]
         return t ? t.clientX : 0
       }
-      return (e as PointerEvent).clientX
+      return (e as globalThis.PointerEvent).clientX
     }
 
-    const onPointerDown = (e: PointerEvent) => {
+    const onPointerDown = (e: globalThis.PointerEvent) => {
       isDraggingRef.current = true
       setIsDragging(true)
       isPausedRef.current = true
@@ -142,14 +142,14 @@ export default function Reviews() {
       try { scrollContainer.setPointerCapture(e.pointerId) } catch {}
     }
 
-    const onPointerMove = (e: PointerEvent) => {
+    const onPointerMove = (e: globalThis.PointerEvent) => {
       if (!isDraggingRef.current) return
       const dx = getClientX(e) - startXRef.current
       scrollContainer.scrollLeft = scrollStartRef.current - dx
       e.preventDefault()
     }
 
-    const endDrag = (e?: PointerEvent | globalThis.TouchEvent) => {
+    const endDrag = (e?: globalThis.PointerEvent | globalThis.TouchEvent) => {
       if (e && 'pointerId' in e) {
         try { scrollContainer.releasePointerCapture(e.pointerId) } catch {}
       }
