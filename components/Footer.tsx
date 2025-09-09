@@ -67,8 +67,6 @@ export default function Footer() {
               <li><a href="#" className="footer-link">О нас</a></li>
               <li><a href="#" className="footer-link">Портфолио</a></li>
               <li><a href="#" className="footer-link">Отзывы клиентов</a></li>
-              <li><a href="#" className="footer-link">Блог</a></li>
-              <li><a href="#" className="footer-link">Карьера</a></li>
             </ul>
           </div>
 
@@ -100,9 +98,8 @@ export default function Footer() {
               <p>&copy; 2024 ДЖАРВИС ИИ. Все права защищены.</p>
             </div>
             <div className="legal-links">
-              <a href="#" className="legal-link">Политика конфиденциальнос��и</a>
+              <a href="#" className="legal-link">Политика конфиденциальности</a>
               <a href="#" className="legal-link">Условия использования</a>
-              <a href="#" className="legal-link">Договор оферты</a>
             </div>
           </div>
         </div>
