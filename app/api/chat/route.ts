@@ -17,6 +17,7 @@ function keepMessagesSimple(messages: Message[]): Message[] {
 }
 
 // Get list of OpenRouter keys (supports rotation)
+let openRouterKeyIndex = 0; // remembers last successful key across requests (per runtime)
 function getOpenRouterKeys(): string[] {
   const keys = [
     process.env.OPENROUTER_API_KEY_1,
@@ -30,6 +31,12 @@ function getOpenRouterKeys(): string[] {
   ].filter((k): k is string => Boolean(k));
   if (keys.length === 0) throw new Error('No OpenRouter API keys available');
   return keys;
+}
+
+function getRotatedOpenRouterKeys(): { keys: string[]; start: number } {
+  const keys = getOpenRouterKeys();
+  const start = openRouterKeyIndex % keys.length;
+  return { keys: [...keys.slice(start), ...keys.slice(0, start)], start };
 }
 
 // Call Groq API (fastest, most powerful free model)
@@ -66,10 +73,11 @@ async function callGroq(messages: Message[], stream = false): Promise<Response> 
 
 // Call OpenRouter API with key rotation (fallback with free models)
 async function callOpenRouter(messages: Message[], stream = false): Promise<Response> {
-  const keys = getOpenRouterKeys();
+  const { keys, start } = getRotatedOpenRouterKeys();
   let lastError: unknown = null;
 
-  for (const apiKey of keys) {
+  for (let i = 0; i < keys.length; i++) {
+    const apiKey = keys[i];
     try {
       const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
@@ -91,16 +99,28 @@ async function callOpenRouter(messages: Message[], stream = false): Promise<Resp
         }),
       });
 
-      if (response.ok) return response;
+      if (response.ok) {
+        // remember the absolute index of the successful key
+        const all = getOpenRouterKeys();
+        openRouterKeyIndex = (start + i) % all.length;
+        return response;
+      }
 
+      // On common rate/limit/auth/server issues, rotate to next key
       if ([401, 402, 403, 429, 500, 502, 503, 504].includes(response.status)) {
         lastError = new Error(`OpenRouter key failed with status ${response.status}`);
+        // advance index so next request starts from next key
+        const all = getOpenRouterKeys();
+        openRouterKeyIndex = (start + i + 1) % all.length;
         continue;
       }
 
       throw new Error(`OpenRouter API error: ${response.status} ${response.statusText}`);
     } catch (err) {
       lastError = err;
+      // network/other error, try next key and advance index
+      const all = getOpenRouterKeys();
+      openRouterKeyIndex = (start + i + 1) % all.length;
       continue;
     }
   }
@@ -193,7 +213,7 @@ export async function POST(request: NextRequest) {
 ПРЕИМУЩЕСТВА НАШЕГО ИИ:
 - ИИ-интеллект: Продвинутые алгоритмы машинного обучения для персонализированного опыта каждого посетителя
 - Молниеносная скорость: Оптимизация с гарантией 99.9% доступности, мгновенные ответы и бесшовные взаимодействия
-- Точное таргетирование: Умная система рекомендаций увеличивает конверсию до 40% благодаря интеллектуальным предложениям товаров
+- Точное таргетир��вание: Умная система рекомендаций увеличивает конверсию до 40% благодаря интеллектуальным предложениям товаров
 - Аналитика роста продаж: Анализ в реальном времени и подробная статистика для оптимизации стратегии
 - Поддержка 24/7: ИИ-ассистент обрабатывает запросы клиентов круглосу��очно, сокращая время ответа и повышая удовлетворенность
 - Корпоративная безопасность: Безопасность банковского уровня с SSL шифрованием, соответствие GDPR и продвинутая защита от мошенничества
@@ -225,7 +245,7 @@ export async function POST(request: NextRequest) {
 - ТОЛЬКО обычный простой текст без всякого форматирования
 - НЕ используй символы для выделения текста
 - Пиши как обычный человек в разговоре
-- Выделяй важное ЗАГЛАВНЫМИ БУКВАМИ если нужно
+- ��ыделяй важное ЗАГЛАВНЫМИ БУКВАМИ если нужно
 
 ПРАВИЛА КОНСУЛЬТИРОВАНИЯ:
 - Ответы подробные с конкретными цифрами и примерами
@@ -243,7 +263,7 @@ export async function POST(request: NextRequest) {
 - Приводишь примеры реальных результатов
 - Помогаешь выбрать подходящий тариф
 
-Отвечай как опытная девушка-консультант, которая знает все о наших услугах, ценах и возможностях. Помогай клиентам выбрать подходящий тариф и объясняй, как наш ИИ увеличит их продажи.`
+О��вечай как опытная девушка-консультант, которая знает все о наших услугах, ценах и возможностях. Помогай клиентам выбрать подходящий тариф и объясняй, как наш ИИ увеличит их продажи.`
     };
 
     // Keep messages simple for short responses
