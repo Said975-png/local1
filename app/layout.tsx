@@ -25,6 +25,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="icon" href="https://cdn.builder.io/api/v1/image/assets%2F50ecad9570504ea882f55daf6cd45081%2Fde97f4c2ed77444f80756eae5137eb7f?format=webp&width=800" type="image/png" />
+        <link rel="apple-touch-icon" href="https://cdn.builder.io/api/v1/image/assets%2F50ecad9570504ea882f55daf6cd45081%2Fde97f4c2ed77444f80756eae5137eb7f?format=webp&width=800" />
         <Script
           src="https://js.puter.com/v2/"
           strategy="beforeInteractive"
