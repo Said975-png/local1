@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { Zap, MessageCircle, BarChart3, Target, ShoppingCart, User, UserPlus, X, Package, Clock, CheckCircle, XCircle } from 'lucide-react'
 import { useCart } from './CartContext'
 import { useUser } from './UserContext'
@@ -17,9 +18,11 @@ export default function Hero() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
   const [isDashboardOpen, setIsDashboardOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setIsLoaded(true)
+    setMounted(true)
   }, [])
 
   useEffect(() => {
@@ -289,7 +292,7 @@ export default function Hero() {
 
 
       {/* Contract Process Panel */}
-      {isContractPanelOpen && (
+      {mounted && isContractPanelOpen && createPortal((
         <div className="contract-panel-overlay" onClick={() => setIsContractPanelOpen(false)}>
           <div className="contract-panel" onClick={(e) => e.stopPropagation()}>
             <div className="contract-panel-header">
@@ -337,7 +340,7 @@ export default function Hero() {
               <div className="contract-step">
                 <div className="step-number">4</div>
                 <div className="step-content">
-                  <h3 className="step-title">Тестирование и доработки</h3>
+                  <h3 className="step-title">Тестирование и ��оработки</h3>
                   <p className="step-description">
                     Проводим полное тестирование функционала, проверяем адаптивность на всех устройствах, оптимизируем скорость загрузки. Исправляем выявленные ошибки и дорабатываем детали по вашим пожеланиям.
                   </p>
@@ -366,10 +369,10 @@ export default function Hero() {
             </div>
           </div>
         </div>
-      )}
+      ), document.body)}
 
       {/* JARVIS Features Panel */}
-      {isFeaturesPanelOpen && (
+      {mounted && isFeaturesPanelOpen && createPortal((
         <div className="features-panel-overlay" onClick={() => setIsFeaturesPanelOpen(false)}>
           <div className="features-panel" onClick={(e) => e.stopPropagation()}>
             <div className="features-panel-header">
@@ -397,7 +400,7 @@ export default function Hero() {
                 <div className="feature-content">
                   <h3 className="feature-title">Общение как с живым консультантом</h3>
                   <p className="feature-description">
-                    Наш ИИ общается с клиентами естественно и дружелюбно, отвечает на любые вопросы о товарах, помогает с выбором размера, цвета, характеристик. Клиенты даже не замечают, что говорят с роботом - настолько живое и понятное общение.
+                    Наш ИИ общается с клиентами естественно и дружелюбно, отвеч��ет на любые вопросы о товарах, помогает с выбором размера, цвета, характеристик. Клиенты даже не замечают, что говорят с роботом - настолько живое и понятное общение.
                   </p>
                 </div>
               </div>
@@ -440,7 +443,7 @@ export default function Hero() {
             </div>
           </div>
         </div>
-      )}
+      ), document.body)}
 
       {/* Login Modal */}
       {isLoginModalOpen && (
