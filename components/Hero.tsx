@@ -119,9 +119,9 @@ export default function Hero() {
 
             {/* Desktop Navigation */}
             <div className="nav-links desktop-nav">
-              <a href="#services" className="nav-link">Услуги</a>
-              <a href="#about" className="nav-link">О нас</a>
-              <a href="#contact" className="nav-link">Контакты</a>
+              <a href="#pricing" className="nav-link">Услуги</a>
+              <a href="#advantages" className="nav-link">О нас</a>
+              <a href="#footer" className="nav-link">Контакты</a>
 
               <div className="nav-actions">
                 <button
@@ -175,15 +175,15 @@ export default function Hero() {
 
             {/* Mobile Navigation */}
             <div className={`mobile-nav ${isMobileMenuOpen ? 'open' : ''}`}>
-              <a href="#services" className="mobile-nav-link" onClick={() => {
+              <a href="#pricing" className="mobile-nav-link" onClick={() => {
                 console.log('Mobile nav link clicked - closing menu');
                 setIsMobileMenuOpen(false);
               }}>Услуги</a>
-              <a href="#about" className="mobile-nav-link" onClick={() => {
+              <a href="#advantages" className="mobile-nav-link" onClick={() => {
                 console.log('Mobile nav link clicked - closing menu');
                 setIsMobileMenuOpen(false);
               }}>О нас</a>
-              <a href="#contact" className="mobile-nav-link" onClick={() => {
+              <a href="#footer" className="mobile-nav-link" onClick={() => {
                 console.log('Mobile nav link clicked - closing menu');
                 setIsMobileMenuOpen(false);
               }}>Контакты</a>
@@ -359,7 +359,7 @@ export default function Hero() {
                 <div className="step-content">
                   <h3 className="step-title">Поддержка и развитие</h3>
                   <p className="step-description">
-                    Предлагаем техническую поддержку проекта, обновления и добавление новых функций. Помогаем масштабировать ваш бизнес с помощью дополнительных ИИ решений и интеграций.
+                    Предлагаем техническую поддержку проекта, обновлени�� и добавление новых функций. Помогаем масштабировать ваш бизнес с помощью дополнительных ИИ решений и интеграций.
                   </p>
                 </div>
               </div>
@@ -415,7 +415,7 @@ export default function Hero() {
                 <div className="feature-content">
                   <h3 className="feature-title">Увеличение продаж в 3 раза</h3>
                   <p className="feature-description">
-                    Магазины с ДЖАРВИС показывают фантастические результаты. Продажи вырастают в среднем на 300 процентов. Клиенты покупают больше, возвращаются чаще и рекомендуют магазин друзьям. Средний чек увеличивается в 2 или 4 раза.
+                    Магазины с ДЖАРВИС показывают фантастические результаты. Продажи вырастают в среднем на 300 процентов. Клиенты покупают больше, возвращаются чаще и рекомендуют магазин друзьям. Средний чек увел��чивается в 2 или 4 раза.
                   </p>
                 </div>
               </div>

@@ -20,7 +20,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="footer-section">
+    <footer className="footer-section" id="footer">
       <div className="footer-container">
         {/* Main Footer Content */}
         <div className="footer-content">
@@ -100,7 +100,7 @@ export default function Footer() {
               <p>&copy; 2024 ДЖАРВИС ИИ. Все права защищены.</p>
             </div>
             <div className="legal-links">
-              <a href="#" className="legal-link">Политика конфиденциальности</a>
+              <a href="#" className="legal-link">Политика конфиденциальнос��и</a>
               <a href="#" className="legal-link">Условия использования</a>
               <a href="#" className="legal-link">Договор оферты</a>
             </div>
